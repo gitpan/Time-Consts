@@ -1,62 +1,64 @@
 package Time::Consts;
 
-$VERSION = 0.01;
+$VERSION = 0.02;
 
 use strict;
 use Carp;
 
 my %ok = map { $_ => 1 } qw/
-	MSEC
-	SEC
-	MIN
-	HOUR
-	DAY
-	WEEK
+    MSEC
+    SEC
+    MIN
+    HOUR
+    DAY
+    WEEK
 /;
 
 my %secs = (
-	MSEC => 1,
-	SEC  => 1000 * 1,
-	MIN  => 1000 * 60,
-	HOUR => 1000 * 60 * 60,
-	DAY  => 1000 * 60 * 60 * 24,
-	WEEK => 1000 * 60 * 60 * 24 * 7,
+    MSEC => 1,
+    SEC  => 1000 * 1,
+    MIN  => 1000 * 60,
+    HOUR => 1000 * 60 * 60,
+    DAY  => 1000 * 60 * 60 * 24,
+    WEEK => 1000 * 60 * 60 * 24 * 7,
 );
 
 sub import {
-	shift;
+    shift;
 
-	return unless @_;
+    return unless @_;
 
-	my @args = @_;
+    my @args = @_;
 
-	if (my (@bad) = grep !$ok{+uc} && $_ ne ':ALL' => @args) {
-		croak('Bad argument(s): ' . join ', ' => @bad);
-	}
+    if (my (@bad) = grep !$ok{+uc} && $_ ne ':ALL' => @args) {
+        croak('Bad argument(s): ' . join ', ' => @bad);
+    }
 
-	my @unit = grep $_ eq lc, @args;
-	croak("Too many units: @unit") if @unit > 1;
-	push @unit => 'sec';
-	my $unit = $secs{uc $unit[0]};
-	
-	my @consts = keys %{{
-		map { $_ => 1 }
-		map { $_ eq ':ALL' ? keys %ok : $_ }
-		grep { $_ eq uc }
-		@args
-	}};
+    my @unit = grep $_ eq lc, @args;
+    croak("Too many units: @unit") if @unit > 1;
+    push @unit => 'sec';
+    my $unit = $secs{uc $unit[0]};
+    
+    my @consts = keys %{{
+        map { $_ => 1 }
+        map { $_ eq ':ALL' ? keys %ok : $_ }
+        grep { $_ eq uc }
+        @args
+    }};
 
-	my $pkg = caller;
+    my $pkg = caller;
 
-	for (@consts) {
-		my $t = $secs{$_} / $unit;
+    for (@consts) {
+        my $t = $secs{$_} / $unit;
 
-		no strict 'refs';
-		*{"$pkg\::$_"} = sub () { $t };
-	}
+        no strict 'refs';
+        *{"$pkg\::$_"} = sub () { $t };
+    }
 }
 
 1;
+
+__END__
 
 =head1 NAME
 
@@ -65,13 +67,13 @@ Time::Consts - Define time constants with specified base
 
 =head1 SYNOPSIS
 
-    # Import all constants.
-    use Time::Consts qw/ :ALL /; 
+    # Define all constants.
+    use Time::Consts qw/ :ALL /;
 
-    # Import just MIN and HOUR
+    # Define just MIN and HOUR.
     use Time::Consts qw/ MIN HOUR /;
 
-    # Set MIN to base, i.e. MIN = 1, SEC = 1/60, etc.
+    # Set MIN to base, i.e. SEC = 1/60, MIN = 1, etc.
     use Time::Consts qw/ min SEC MIN /;
 
 =head1 DESCRIPTION
@@ -107,7 +109,7 @@ If you at any time would want to have any of the constants in another base than 
 
 =head1 AUTHOR
 
-Johan Lodin <lodin@gfs.gu.se>
+Johan Lodin <lodin@cpan.org>
 
 
 =head1 COPYRIGHT
