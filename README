@@ -33,6 +33,8 @@ DESCRIPTION
     constant. E.g. "WEEK / HOUR" will always return 168, i.e. the number of
     hours per week.
 
+    If you do calendar math consider using a module designed for that.
+
 DIAGNOSTICS
     Bad argument(s): %s
         (F) Self-explanatory.
@@ -44,7 +46,7 @@ AUTHOR
     Johan Lodin <lodin@cpan.org>
 
 COPYRIGHT
-    Copyright 2004 Johan Lodin. All rights reserved.
+    Copyright 2004-2005 Johan Lodin. All rights reserved.
 
     This library is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.

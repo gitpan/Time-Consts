@@ -1,7 +1,11 @@
 Revision history for Perl module Time::Consts
 
-0.01 Wed Oct 20 12:29:43 2004
-    - original version; created by ExtUtils::ModuleMaker 0.32
+0.03 2005-02-28
+    - added tests
+    - fixed file permissions
 
 0.02 Wed Oct 20 16:33:43 2004
     - fixed tests
+
+0.01 Wed Oct 20 12:29:43 2004
+    - original version; created by ExtUtils::ModuleMaker 0.32

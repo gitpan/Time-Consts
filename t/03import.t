@@ -1,6 +1,6 @@
+use Test::More tests => 1 + 5;
 use strict;
 use Symbol ();
-use Test::More tests => 7;
 BEGIN { use_ok('Time::Consts') };
 
 #########################
@@ -46,7 +46,7 @@ sub get_vars {
     for my $glob (values %{"$pkg\::"}) {
         my $name = *$glob{NAME};
         next if $name =~ /::\z/ or is_automain_var($name);
-            
+
         my @types = (
             defined $$glob ? '$' : (),
             defined @$glob ? '@' : (),
@@ -92,28 +92,6 @@ my $test_diff = sub {
     die if $@;
 };
 
-my $test_import_only = sub {
-    my ($str, $imp, $ok) = @_;
-    $ok = 1 if not defined $ok;
-
-    my (undef, $file, $line) = caller;
-
-    $pkg_count++;
-    my $code = qq{
-        package Time::Consts::_::Test::Pkg$pkg_count;
-        my \@pre = ::get_vars(__PACKAGE__);
-        eval { Time::Consts::->import(\@\$imp); 1 };
-        if (\$\@) {
-    # line $line "$file"
-            ::ok($ok == 0, \$str);
-            return;
-        }
-    };
-    $code =~ s/^\s+(# line )/$1/mg;
-    eval $code;
-    die if $@;
-};
-
 my @all = qw/
     MSEC
     SEC
@@ -147,9 +125,4 @@ $test_diff->(
     'Importing SEC, setting base',
     [qw/ min SEC /],
     [qw/ &SEC /]
-);
-$test_import_only->(
-    'Importing WRONG',
-    [qw/ WRONG /],
-    0
 );

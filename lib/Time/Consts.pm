@@ -1,6 +1,6 @@
 package Time::Consts;
 
-$VERSION = 0.02;
+$VERSION = 0.03;
 
 use strict;
 use Carp;
@@ -38,7 +38,7 @@ sub import {
     croak("Too many units: @unit") if @unit > 1;
     push @unit => 'sec';
     my $unit = $secs{uc $unit[0]};
-    
+
     my @consts = keys %{{
         map { $_ => 1 }
         map { $_ eq ':ALL' ? keys %ok : $_ }
@@ -56,7 +56,7 @@ sub import {
     }
 }
 
-1;
+__PACKAGE__;
 
 __END__
 
@@ -91,6 +91,8 @@ and are provided as arguments to the C<use()> statements. An ':ALL' tag is provi
 
 If you at any time would want to have any of the constants in another base than the one given to the C<use()> statement just divide with that constant. E.g. C<WEEK / HOUR> will always return 168, i.e. the number of hours per week.
 
+If you do calendar math consider using a module designed for that.
+
 
 =head1 DIAGNOSTICS
 
@@ -114,7 +116,7 @@ Johan Lodin <lodin@cpan.org>
 
 =head1 COPYRIGHT
 
-Copyright 2004 Johan Lodin. All rights reserved.
+Copyright 2004-2005 Johan Lodin. All rights reserved.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.

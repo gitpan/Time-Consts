@@ -7,5 +7,6 @@ WriteMakefile(
     AUTHOR       => 'Johan Lodin <lodin@cpan.org>',
     ABSTRACT     => 'Time::Consts',
     PREREQ_PM    => {
-                    },
+        Test::More => 0.45,
+    },
 );
